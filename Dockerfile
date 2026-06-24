@@ -1,6 +1,8 @@
 FROM node:24-slim
 WORKDIR /app
 
+ENV PNPM_HOME=/cache/pnpm
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         libvips libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev \
@@ -9,7 +11,7 @@ RUN apt-get update \
     && corepack enable \
     && corepack use pnpm@10.34.3 \
     && pnpm config set --global store-dir /cache/.pnpm-store \
-    && mkdir -p /cache/.pnpm-store \
+    && mkdir -p /cache/.pnpm-store /cache/pnpm \
     && chown -R node:node /cache \
     && rm -rf /root/.cache
 
