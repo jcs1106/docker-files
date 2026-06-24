@@ -2,6 +2,7 @@ FROM node:24-slim
 WORKDIR /app
 
 ENV PNPM_HOME=/cache/pnpm
+ENV PATH="$PNPM_HOME:$PATH"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -9,7 +10,7 @@ RUN apt-get update \
         libnss3 libxkbcommon0 libgtk-3-0 libgbm1 libasound2 chromium \
     && rm -rf /var/lib/apt/lists/* \
     && corepack enable \
-    && corepack use pnpm@10.34.3 \
+    && corepack prepare pnpm@10.34.3 --activate \
     && pnpm config set --global store-dir /cache/.pnpm-store \
     && mkdir -p /cache/.pnpm-store /cache/pnpm \
     && chown -R node:node /cache \
